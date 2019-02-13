@@ -5,13 +5,15 @@ using UnityEngine;
 public class ReturnToStartPosition : MonoBehaviour
 {
     Vector3 startingPos;
+    Quaternion startingRot;
     Vector3 resetVel = new Vector3(0.0f,0.0f,0.0f);
     public Rigidbody rb;
     // Start is called before the first frame update
     void Start()
     {
-        startingPos = transform.position;
-        startingPos.y = startingPos.y + 0.5f;
+        startingPos = rb.position;
+        startingPos.y = startingPos.y + 0.2f;
+        startingRot = rb.rotation;
     }
 
     // Update is called once per frame
@@ -21,7 +23,9 @@ public class ReturnToStartPosition : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        transform.position = startingPos;
+
+        rb.rotation = startingRot;
         rb.velocity = resetVel;
+        rb.position = startingPos;
     }
 }

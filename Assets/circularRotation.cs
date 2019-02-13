@@ -17,4 +17,12 @@ public class circularRotation : MonoBehaviour
     {
         this.transform.rotation = cylinder.transform.rotation;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.name == "RotPuzzle1")
+        {
+            
+        }
+    }
 }
