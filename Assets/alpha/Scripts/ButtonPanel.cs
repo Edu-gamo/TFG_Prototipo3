@@ -6,18 +6,15 @@ using UnityEngine.UI;
 
 public class ButtonPanel : MonoBehaviour
 {
-
     public Valve.VR.InteractionSystem.HoverButton[] buttons;
     public Text screenText;
     public float restTime;
     public float t;
     bool timed = false;
 
-
     // Use this for initialization
     void Start()
     {
-
         for (int i = 0; i < buttons.Length; i++)
         {
             buttons[i].onButtonDown.AddListener(OnButtonDown);
@@ -55,48 +52,10 @@ public class ButtonPanel : MonoBehaviour
         {
             if (buttons[i].buttonDown)
             {
-                if(buttons[i].name == "Button0")
-                {
-                    screenText.text += "0";
-                }
-                else if (buttons[i].name == "Button1")
-                {
-                    screenText.text += "1";
-                }
-                else if (buttons[i].name == "Button2")
-                {
-                    screenText.text += "2";
-                }
-                else if (buttons[i].name == "Button3")
-                {
-                    screenText.text += "3";
-                }
-                else if (buttons[i].name == "Button4")
-                {
-                    screenText.text += "4";
-                }
-                else if (buttons[i].name == "Button5")
-                {
-                    screenText.text += "5";
-                }
-                else if (buttons[i].name == "Button6")
-                {
-                    screenText.text += "6";
-                }
-                else if (buttons[i].name == "Button7")
-                {
-                    screenText.text += "7";
-                }
-                else if (buttons[i].name == "Button8")
-                {
-                    screenText.text += "8";
-                }
-                else if (buttons[i].name == "Button9")
-                {
-                    screenText.text += "9";
-                }
+                int temp = i + 1;
+                if (temp == 10) temp = 0;
+                screenText.text += temp;
             }
-
         }        
     }
 }
