@@ -41,6 +41,8 @@ namespace Valve.VR.InteractionSystem
         public SteamVR_Action_Boolean headsetOnHead = SteamVR_Input.GetBooleanAction("HeadsetOnHead");
 
 		public bool allowToggleTo2D = true;
+
+        public Canvas turnedNotice;
         
         //-------------------------------------------------
         // Singleton instance of the Player. Only one can exist at a time.
@@ -412,17 +414,17 @@ namespace Valve.VR.InteractionSystem
 		{
 			//Do something appropriate here
 		}
-        bool Turned()
+        void Turned()
         {
             if (hmdTransform.forward.x < -0.5f)
             {
                 Debug.Log("turned");
-                return true;
+                turnedNotice.gameObject.SetActive(true);
             }
             else
             {
                 Debug.Log("okay");
-                return false;               
+                turnedNotice.gameObject.SetActive(false);
             }
            
         }
