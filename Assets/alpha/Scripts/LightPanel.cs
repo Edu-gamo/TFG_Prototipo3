@@ -21,13 +21,18 @@ public class LightPanel : MonoBehaviour
         {
             buttons[i].onButtonDown.AddListener(OnButtonDown);
         }
-        opened = new bool[5];
         for (int i = 0; i < opened.Length; i++)
         {
             opened[i] = false;
         }
         opened[1] = true;
         opened[2] = true;
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         for (int i = 0; i < opened.Length; i++)
         {
             if (opened[i])
@@ -41,109 +46,86 @@ public class LightPanel : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        for (int i = 0; i < opened.Length; i++)
-        {
-            if (opened[i])
-            {
-                if (i == 0)
-                {
-                    lights[i + 1].GetComponent<Renderer>().material = materials[0];
-                }
-                else if (i == lights.Length)
-                {
-                    lights[i - 1].GetComponent<Renderer>().material = materials[0];
-                }
-                else
-                {
-                    lights[i - 1].GetComponent<Renderer>().material = materials[0];
-                    lights[i + 1].GetComponent<Renderer>().material = materials[0];
-                }
-            }
-            
-            else{
-                if (!opened[i])
-                {
-                    if (i == 0)
-                    {
-                        lights[i + 1].GetComponent<Renderer>().material = materials[1];
-                    }
-                    else if (i == lights.Length)
-                    {
-                        lights[i - 1].GetComponent<Renderer>().material = materials[1];
-                    }
-                    else
-                    {
-                        lights[i - 1].GetComponent<Renderer>().material = materials[1];
-                        lights[i + 1].GetComponent<Renderer>().material = materials[1];
-                    }
-                }
-                
-            }
-        }       
-}
-
     private void OnButtonDown(Valve.VR.InteractionSystem.Hand hand)
     {
         for (int i = 0; i < buttons.Length; i++)
         {
             if (buttons[i].buttonDown)
             {
-                if (buttons[i].name == "Button1")
+
+                if (buttons[i].name == "Button1") //0
                 {
-                    if (opened[i])
+                    if (opened[i + 1])
                     {
-                        opened[i] = false;
+                        opened[i + 1] = false;
                     }
                     else
                     {
-                        opened[i] = true;
+                        opened[i + 1] = true;
                     }
                 }
-                else if (buttons[i].name == "Button2")
+                //else if (buttons[i].name == "Button2") //1
+                //{ 
+                //    if (opened[i])
+                //    {
+                //        opened[i] = false;
+                //    }
+                //    else
+                //    {
+                //        opened[i] = true;
+                //    }
+                //}
+                //else if (buttons[i].name == "Button3") //2
+                //{
+                //    if (opened[i])
+                //    {
+                //        opened[i] = false;
+                //    }
+                //    else
+                //    {
+                //        opened[i] = true;
+                //    }
+                //}
+                //else if (buttons[i].name == "Button4")  //3
+                //{
+                //    if (opened[i])
+                //    {
+                //        opened[i] = false;
+                //    }
+                //    else
+                //    {
+                //        opened[i] = true;
+                //    }
+                //}
+                else if (buttons[i].name == "Button5") //4
                 {
-                    if (opened[i])
+                    if (opened[lights.Length - 2])
                     {
-                        opened[i] = false;
+                        opened[lights.Length - 2] = false;
                     }
                     else
                     {
-                        opened[i] = true;
+                        opened[lights.Length - 2] = true;
                     }
                 }
-                else if (buttons[i].name == "Button3")
+                else
                 {
-                    if (opened[i])
+                    if (opened[i + 1])
                     {
-                        opened[i] = false;
+                        opened[i + 1] = false;
                     }
-                    else
+                    else 
                     {
-                        opened[i] = true;
+                        opened[i + 1] = true;
                     }
-                }
-                else if (buttons[i].name == "Button4")
-                {
-                    if (opened[i])
+
+                    if (opened[i - 1])
                     {
-                        opened[i] = false;
+                        opened[i - 1] = false;
                     }
-                    else
+                     else
                     {
-                        opened[i] = true;
-                    }
-                }
-                else if (buttons[i].name == "Button5")
-                {
-                    if (opened[i])
-                    {
-                        opened[i] = false;
-                    }
-                    else
-                    {
-                        opened[i] = true;
+                        opened[i - 1] = true;
                     }
                 }
             }

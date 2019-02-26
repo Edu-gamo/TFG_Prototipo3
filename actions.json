@@ -36,6 +36,11 @@
       "requirement": "optional"
     },
     {
+      "name": "/actions/default/in/RotateCamera",
+      "type": "vector2",
+      "requirement": "suggested"
+    },
+    {
       "name": "/actions/default/out/Haptic",
       "type": "vibration"
     },
@@ -108,7 +113,8 @@
       "/actions/default/in/Pose": "Pose",
       "/actions/default/out/Haptic": "Haptic",
       "/actions/platformer/in/Move": "Move",
-      "/actions/platformer/in/Jump": "Jump"
+      "/actions/platformer/in/Jump": "Jump",
+      "/actions/default/in/RotateCamera": "RotateCamera"
     }
   ]
 }

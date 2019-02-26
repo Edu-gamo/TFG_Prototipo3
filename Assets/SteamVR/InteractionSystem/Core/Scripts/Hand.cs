@@ -50,6 +50,8 @@ namespace Valve.VR.InteractionSystem
         public SteamVR_Action_Boolean grabGripAction = SteamVR_Input.GetAction<SteamVR_Action_Boolean>("GrabGrip");
         
         public SteamVR_Action_Vibration hapticAction = SteamVR_Input.GetAction<SteamVR_Action_Vibration>("Haptic");
+
+        public SteamVR_Action_Vector2 rotateAction = SteamVR_Input.GetAction<SteamVR_Action_Vector2>("RotateCamera");
         
         public SteamVR_Action_Boolean uiInteractAction = SteamVR_Input.GetAction<SteamVR_Action_Boolean>("InteractUI");
 

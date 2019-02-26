@@ -29,7 +29,6 @@ namespace Valve.VR.InteractionSystem.Sample
 
             plantAction.AddOnChangeListener(OnPlantActionChange, hand.handType);
         }
-
         private void OnDisable()
         {
             if (plantAction != null)

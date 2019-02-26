@@ -41,12 +41,11 @@ namespace Valve.VR.InteractionSystem
         public SteamVR_Action_Boolean headsetOnHead = SteamVR_Input.GetBooleanAction("HeadsetOnHead");
 
 		public bool allowToggleTo2D = true;
-
-
-		//-------------------------------------------------
-		// Singleton instance of the Player. Only one can exist at a time.
-		//-------------------------------------------------
-		private static Player _instance;
+        
+        //-------------------------------------------------
+        // Singleton instance of the Player. Only one can exist at a time.
+        //-------------------------------------------------
+        private static Player _instance;
 		public static Player instance
 		{
 			get
@@ -295,6 +294,7 @@ namespace Valve.VR.InteractionSystem
                     Debug.Log("<b>SteamVR Interaction System</b> Headset removed");
                 }
             }
+            Turned();
         }
 
 		//-------------------------------------------------
@@ -412,5 +412,19 @@ namespace Valve.VR.InteractionSystem
 		{
 			//Do something appropriate here
 		}
+        bool Turned()
+        {
+            if (hmdTransform.forward.x < -0.5f)
+            {
+                Debug.Log("turned");
+                return true;
+            }
+            else
+            {
+                Debug.Log("okay");
+                return false;               
+            }
+           
+        }
 	}
 }
