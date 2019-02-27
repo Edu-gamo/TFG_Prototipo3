@@ -43,6 +43,9 @@ namespace Valve.VR.InteractionSystem
 		public bool allowToggleTo2D = true;
 
         public Canvas turnedNotice;
+
+        float startPos;
+        bool rotated = false;
         
         //-------------------------------------------------
         // Singleton instance of the Player. Only one can exist at a time.
@@ -263,7 +266,10 @@ namespace Valve.VR.InteractionSystem
 		//-------------------------------------------------
 		private IEnumerator Start()
 		{
-			_instance = this;
+            startPos = hmdTransform.forward.x;
+
+
+            _instance = this;
 
             while (SteamVR.initializedState == SteamVR.InitializedStates.None || SteamVR.initializedState == SteamVR.InitializedStates.Initializing)
                 yield return null;
@@ -282,6 +288,17 @@ namespace Valve.VR.InteractionSystem
 
         protected virtual void Update()
         {
+            //Debug.Log("------------------------------> " + hands[0].rotateAction.GetAxis(hands[0].handType)[0]);
+            if (hands[0].rotateAction.GetAxis(hands[0].handType)[0] > .75f && !rotated) {
+                transform.Rotate(transform.up, 45);
+                rotated = true;
+            } else if (hands[0].rotateAction.GetAxis(hands[0].handType)[0] < -.75f && !rotated) {
+                transform.Rotate(transform.up, -45);
+                rotated = true;
+            }else if (hands[0].rotateAction.GetAxis(hands[0].handType)[0] == 0) {
+                rotated = false;
+            }
+
             if (SteamVR.initializedState != SteamVR.InitializedStates.InitializeSuccess)
                 return;
 
@@ -416,16 +433,21 @@ namespace Valve.VR.InteractionSystem
 		}
         void Turned()
         {
-            if (hmdTransform.forward.x < -0.5f)
+            //float angle = Mathf.Acos(Vector3.Dot(startPos, hmdTransform.forward)/ (startPos.magnitude * hmdTransform.forward.magnitude));
+            Debug.Log("local        " + trackingOriginTransform.localRotation);
+            Debug.Log("world        " + trackingOriginTransform.rotation);
+            if (trackingOriginTransform.rotation.x >  startPos - Mathf.Cos(150))
             {
-                Debug.Log("turned");
+                //Debug.Log("turned");
                 turnedNotice.gameObject.SetActive(true);
             }
             else
             {
-                Debug.Log("okay");
+                //Debug.Log("okay");
                 turnedNotice.gameObject.SetActive(false);
             }
+                   
+            
            
         }
 	}
