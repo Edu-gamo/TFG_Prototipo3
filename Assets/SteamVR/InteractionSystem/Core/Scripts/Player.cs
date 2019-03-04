@@ -434,17 +434,17 @@ namespace Valve.VR.InteractionSystem
         void Turned()
         {
             //float angle = Mathf.Acos(Vector3.Dot(startPos, hmdTransform.forward)/ (startPos.magnitude * hmdTransform.forward.magnitude));
-            Debug.Log("local        " + trackingOriginTransform.localRotation);
-            Debug.Log("world        " + trackingOriginTransform.rotation);
-            if (trackingOriginTransform.rotation.x >  startPos - Mathf.Cos(150))
+            Debug.Log("world        " + hmdTransform.rotation);
+            Debug.Log("local        " + hmdTransform.localRotation);
+            if (/*hmdTransform.localRotation.y >  -0.8f &&*/ hmdTransform.localRotation.y < 0.9f)
             {
                 //Debug.Log("turned");
-                turnedNotice.gameObject.SetActive(true);
+                turnedNotice.gameObject.SetActive(false);
             }
             else
             {
                 //Debug.Log("okay");
-                turnedNotice.gameObject.SetActive(false);
+                turnedNotice.gameObject.SetActive(true);
             }
                    
             

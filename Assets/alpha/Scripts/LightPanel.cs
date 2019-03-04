@@ -63,40 +63,15 @@ public class LightPanel : MonoBehaviour
                     {
                         opened[i + 1] = true;
                     }
+                    if (opened[i])
+                    {
+                        opened[i] = false;
+                    }
+                    else
+                    {
+                        opened[i] = true;
+                    }
                 }
-                //else if (buttons[i].name == "Button2") //1
-                //{ 
-                //    if (opened[i])
-                //    {
-                //        opened[i] = false;
-                //    }
-                //    else
-                //    {
-                //        opened[i] = true;
-                //    }
-                //}
-                //else if (buttons[i].name == "Button3") //2
-                //{
-                //    if (opened[i])
-                //    {
-                //        opened[i] = false;
-                //    }
-                //    else
-                //    {
-                //        opened[i] = true;
-                //    }
-                //}
-                //else if (buttons[i].name == "Button4")  //3
-                //{
-                //    if (opened[i])
-                //    {
-                //        opened[i] = false;
-                //    }
-                //    else
-                //    {
-                //        opened[i] = true;
-                //    }
-                //}
                 else if (buttons[i].name == "Button5") //4
                 {
                     if (opened[lights.Length - 2])
@@ -106,6 +81,14 @@ public class LightPanel : MonoBehaviour
                     else
                     {
                         opened[lights.Length - 2] = true;
+                    }
+                    if (opened[i])
+                    {
+                        opened[i] = false;
+                    }
+                    else
+                    {
+                        opened[i] = true;
                     }
                 }
                 else
@@ -126,6 +109,14 @@ public class LightPanel : MonoBehaviour
                      else
                     {
                         opened[i - 1] = true;
+                    }
+                    if (opened[i])
+                    {
+                        opened[i] = false;
+                    }
+                    else
+                    {
+                        opened[i] = true;
                     }
                 }
             }
