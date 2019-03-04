@@ -815,7 +815,7 @@ namespace Valve.VR.InteractionSystem
             {
                 yield break;
             }
-            Debug.Log(rotateAction.GetAxis(SteamVR_Input_Sources.Any));
+            //Debug.Log(rotateAction.GetAxis(SteamVR_Input_Sources.Any));
             //Debug.Log( "<b>[SteamVR Interaction]</b> Hand - initializing connection routine" );
 
             while (true)
@@ -1081,7 +1081,7 @@ namespace Valve.VR.InteractionSystem
         protected virtual void Update()
         {
 
-            Debug.Log(rotateAction.GetAxis(SteamVR_Input_Sources.Any));
+            //Debug.Log(rotateAction.GetAxis(SteamVR_Input_Sources.Any));
 
             UpdateNoSteamVRFallback();
 

@@ -7,6 +7,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 namespace Valve.VR.InteractionSystem
 {
@@ -44,9 +45,13 @@ namespace Valve.VR.InteractionSystem
 
         public Canvas turnedNotice;
 
-        float startPos;
         bool rotated = false;
-        
+
+        string currentScene;
+
+
+        Vector3 startPos = new Vector3(6.0f,0.0f,-4.0f);
+
         //-------------------------------------------------
         // Singleton instance of the Player. Only one can exist at a time.
         //-------------------------------------------------
@@ -266,10 +271,10 @@ namespace Valve.VR.InteractionSystem
 		//-------------------------------------------------
 		private IEnumerator Start()
 		{
-            startPos = hmdTransform.forward.x;
+            currentScene = SceneManager.GetActiveScene().name;
 
 
-            _instance = this;
+               _instance = this;
 
             while (SteamVR.initializedState == SteamVR.InitializedStates.None || SteamVR.initializedState == SteamVR.InitializedStates.Initializing)
                 yield return null;
@@ -314,6 +319,7 @@ namespace Valve.VR.InteractionSystem
                 }
             }
             Turned();
+            SwitchLevel();
         }
 
 		//-------------------------------------------------
@@ -434,8 +440,8 @@ namespace Valve.VR.InteractionSystem
         void Turned()
         {
             //float angle = Mathf.Acos(Vector3.Dot(startPos, hmdTransform.forward)/ (startPos.magnitude * hmdTransform.forward.magnitude));
-            Debug.Log("world        " + hmdTransform.rotation);
-            Debug.Log("local        " + hmdTransform.localRotation);
+            //Debug.Log("world        " + hmdTransform.rotation);
+            //Debug.Log("local        " + hmdTransform.localRotation);
             if (/*hmdTransform.localRotation.y >  -0.8f &&*/ hmdTransform.localRotation.y < 0.9f)
             {
                 //Debug.Log("turned");
@@ -445,10 +451,17 @@ namespace Valve.VR.InteractionSystem
             {
                 //Debug.Log("okay");
                 turnedNotice.gameObject.SetActive(true);
+            }           
+        }
+        void SwitchLevel()
+        {
+            string newScene;
+            newScene = SceneManager.GetActiveScene().name;
+            if (newScene != currentScene)
+            {
+                transform.position = startPos;
+                currentScene = newScene;
             }
-                   
-            
-           
         }
 	}
 }
