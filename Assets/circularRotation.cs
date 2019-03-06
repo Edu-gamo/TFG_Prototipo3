@@ -25,11 +25,8 @@ namespace Valve.VR.InteractionSystem
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.name == "RotPuzzle1" && !scored)
-            {
-                GameObject.Find("Player").GetComponent<Player>().level++;
-                scored = true;
-            }
+            GameObject.Find("Player").GetComponent<Player>().level++;
+            scored = true;
         }
     }
 }

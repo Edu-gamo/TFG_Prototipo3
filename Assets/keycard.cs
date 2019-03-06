@@ -26,7 +26,6 @@ namespace Valve.VR.InteractionSystem
         // Update is called once per frame
         void Update()
         {
-
             //obrim la porta
             for (int i = 0; i < door.Length; i++)
             {
@@ -40,6 +39,7 @@ namespace Valve.VR.InteractionSystem
                     endMove = true;
                 }
             }
+
         }
         private void OnTriggerEnter(Collider other)
         {
@@ -55,14 +55,20 @@ namespace Valve.VR.InteractionSystem
             }
             else if (other.name == "KeyCard2") // Detectem que passem la keycard
             {
-                SteamVR_Fade.Start(Color.clear, 0);
                 SteamVR_Fade.Start(Color.black, currentFadeTime);
-                SceneManager.LoadScene("AdriTest");
-                SteamVR_Fade.Start(Color.clear, currentFadeTime);
+                StartCoroutine(ExecuteAfterTime());
+                                     
+               
             }
             else  //Si no es la keycard no s'obre
             {
             }
+        }
+
+        IEnumerator ExecuteAfterTime()
+        {
+            yield return new WaitForSeconds(2.5f);
+            SceneManager.LoadScene("AdriTest");
         }
     }
 }

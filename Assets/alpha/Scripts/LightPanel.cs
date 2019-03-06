@@ -13,6 +13,7 @@ namespace Valve.VR.InteractionSystem
         public bool[] opened;
         public Material[] materials;
         int openedCount = 2;
+        bool scored = false;
 
 
         // Use this for initialization
@@ -35,9 +36,10 @@ namespace Valve.VR.InteractionSystem
         void Update()
         {
             
-            if (openedCount == 5)
+            if (openedCount == 5 && !scored)
             {
                 GameObject.Find("Player").GetComponent<Player>().level++;
+                scored = true;
             }
 
             for (int i = 0; i < opened.Length; i++)

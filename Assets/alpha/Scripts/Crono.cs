@@ -34,16 +34,19 @@ namespace Valve.VR.InteractionSystem
                     minutes--;
                     seconds = 59;
                 }
-                timeRest.text = string.Format("{0}:{1}", minutes, (int)seconds);
+                //timeRest.text = minutes + " : " + seconds;
             }
             else
             {
-                SteamVR_Fade.Start(Color.clear, 0);
-                SteamVR_Fade.Start(Color.black, currentFadeTime);
-                SceneManager.LoadScene("FinalScene");
-                SteamVR_Fade.Start(Color.clear, currentFadeTime);
-                timeRest.text = "Time out!";
+                //SteamVR_Fade.Start(Color.clear, 0);
+                //SteamVR_Fade.Start(Color.black, currentFadeTime);
+
+                //SceneManager.LoadScene("FinalScene");
+                //SteamVR_Fade.Start(Color.clear, currentFadeTime);
+                //timeRest.text = "Time out!";
+               
             }
+
 
         }
     }

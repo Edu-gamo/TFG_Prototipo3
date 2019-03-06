@@ -326,7 +326,7 @@ namespace Valve.VR.InteractionSystem
             Turned();
             SwitchLevel();
 
-            print(level);
+            //print(level);
             if (level == 4)
             {
                 SteamVR_Fade.Start(Color.clear, 0);
@@ -475,10 +475,18 @@ namespace Valve.VR.InteractionSystem
             newScene = SceneManager.GetActiveScene().name;
             if (newScene != currentScene)
             {
+                SteamVR_Fade.Start(Color.black, 0);
                 transform.position = startPos;
+                StartCoroutine(ExecuteAfterTime());
                 currentScene = newScene;
 
             }
+        }
+
+        IEnumerator ExecuteAfterTime()
+        {
+            yield return new WaitForSeconds(0.5f);
+            SteamVR_Fade.Start(Color.clear, currentFadeTime);
         }
 
         private void OnTriggerEnter(Collider other)
