@@ -14,7 +14,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
+  - enabled: 0
     path: Assets/alpha/AdriTest 1.unity
     guid: 088e994c400d46a4b93b7e81140fa536
+  - enabled: 1
+    path: Assets/alpha/AdriTest.unity
+    guid: a5995dacb88e9c544b01c99837d80114
+  - enabled: 1
+    path: Assets/alpha/FinalScene.unity
+    guid: 78538866b53bb244f969fed62d33c560
   m_configObjects: {}

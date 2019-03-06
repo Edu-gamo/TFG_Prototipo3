@@ -49,6 +49,11 @@ namespace Valve.VR.InteractionSystem
 
         string currentScene;
 
+        public int level = 0;
+
+
+        public float currentFadeTime;
+
 
         Vector3 startPos = new Vector3(6.0f,0.0f,-4.0f);
 
@@ -320,6 +325,17 @@ namespace Valve.VR.InteractionSystem
             }
             Turned();
             SwitchLevel();
+
+            print(level);
+            if (level == 4)
+            {
+                SteamVR_Fade.Start(Color.clear, 0);
+                SteamVR_Fade.Start(Color.black, currentFadeTime);
+                SceneManager.LoadScene("FinalScene");
+                SteamVR_Fade.Start(Color.clear, currentFadeTime);
+                level = -1;
+            }
+
         }
 
 		//-------------------------------------------------
@@ -461,7 +477,20 @@ namespace Valve.VR.InteractionSystem
             {
                 transform.position = startPos;
                 currentScene = newScene;
+
             }
         }
-	}
+
+        private void OnTriggerEnter(Collider other)
+        {
+            print(this.GetComponent<BoxCollider>().enabled);
+            this.GetComponent<BoxCollider>().enabled = true;
+        }
+        private void OnTriggerExit(Collider other)
+        {
+
+            print(this.GetComponent<BoxCollider>().enabled);
+            this.GetComponent<BoxCollider>().enabled = false;
+        }
+    }
 }
