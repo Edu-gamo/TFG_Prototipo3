@@ -299,7 +299,7 @@ namespace Valve.VR.InteractionSystem
         protected virtual void Update()
         {
             //Debug.Log("------------------------------> " + hands[0].rotateAction.GetAxis(hands[0].handType)[0]);
-            if (hands[0].rotateAction.GetAxis(hands[0].handType)[0] > .75f && !rotated) {
+            if (hands[0].rotateAction.GetAxis(hands[0].handType)[0] > .75f && !rotated) {            
                 transform.Rotate(transform.up, 45);
                 rotated = true;
             } else if (hands[0].rotateAction.GetAxis(hands[0].handType)[0] < -.75f && !rotated) {

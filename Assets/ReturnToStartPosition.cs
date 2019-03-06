@@ -23,9 +23,16 @@ public class ReturnToStartPosition : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        if (other.name == "Floor")
+        {
+            rb.rotation = startingRot;
+            rb.velocity = resetVel;
+            rb.position = startingPos;
 
-        rb.rotation = startingRot;
-        rb.velocity = resetVel;
-        rb.position = startingPos;
+        }
+        else
+        {
+
+        }
     }
 }
