@@ -6,6 +6,7 @@ TagManager:
   tags:
   - projectile
   - FxTemporaire
+  - PathRoom1
   layers:
   - Default
   - TransparentFX

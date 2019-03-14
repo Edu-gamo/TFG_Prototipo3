@@ -4,34 +4,54 @@ using UnityEngine;
 
 public class BotController : MonoBehaviour {
 
+    public Transform[] path;
+    public int targetId = 1;
+    public bool arrived = false;
+
+    public float maxTimeStop = 5.0f;
+    private float actualTimeStop = 0.0f;
+
     public GameObject player;
 
-    private Vector3 targetPos;
-
-    private float speed = 1.5f;
-
-    private bool isMoving = false;
+    public int speed;
 
     // Start is called before the first frame update
     void Start() {
 
-        transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 2, player.transform.position.z);
+        player = GameObject.FindGameObjectWithTag("Player");
+
+        path = GameObject.FindGameObjectWithTag("PathRoom1").GetComponentsInChildren<Transform>();
+
+        Debug.Log("Bot: El jugador empieza en el nivel: " + player.GetComponent<Valve.VR.InteractionSystem.Player>().level);
 
     }
 
     // Update is called once per frame
     void Update() {
+        
+        if (!arrived) {
 
-        targetPos = new Vector3(player.transform.position.x, player.transform.position.y + 2, player.transform.position.z);
+            if (path != null) {
+                transform.position += (path[targetId].position - transform.position).normalized * speed * Time.deltaTime;
+                if (Vector3.Distance(transform.position, path[targetId].position) < 1) arrived = true;
+            } else {
+                if (Vector3.Distance(transform.position, player.transform.position) > 2) {
+                    transform.position += (player.transform.position - transform.position).normalized * speed * Time.deltaTime;
+                }
+            }
 
-        Vector3 movement = (targetPos - transform.position).normalized;
+        } else if (actualTimeStop < maxTimeStop) {
 
-        if (Vector3.Distance(transform.position, targetPos) < 1) {
+            actualTimeStop += Time.deltaTime;
+
+        } else {
+
+            targetId++;
+            if (targetId >= path.Length) targetId = 1;
+            arrived = false;
+            actualTimeStop = 0.0f;
 
         }
-
-        transform.position += movement * speed;
-        Debug.Log(transform.position);
 
     }
 
