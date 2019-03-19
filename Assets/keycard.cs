@@ -31,7 +31,8 @@ namespace Valve.VR.InteractionSystem
             {
                 if (!endMove && opened) // comencem a obrir la porta
                 {
-                    door[i].transform.Translate(-speed * Time.deltaTime, 0, 0);
+                    door[0].transform.Translate(speed * Time.deltaTime, 0, 0);
+                    door[1].transform.Translate(-speed * Time.deltaTime, 0, 0);
                 }
 
                 if (door[i].transform.position.x > endPos) // Quan la porta arriva al final posem el bool

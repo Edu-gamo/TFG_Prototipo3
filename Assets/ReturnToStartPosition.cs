@@ -29,6 +29,7 @@ public class ReturnToStartPosition : MonoBehaviour
             rb.velocity = resetVel;
             rb.angularVelocity = resetVel;
             rb.position = startingPos;
+            print(other.transform.position);
 
         }
         else
