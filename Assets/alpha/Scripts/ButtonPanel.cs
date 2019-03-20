@@ -12,9 +12,13 @@ namespace Valve.VR.InteractionSystem
         public float restTime;
         public float t;
         bool timed = false;
-        bool solved = false;
+        public bool solved = false;
         public GameObject door;
+        public GameObject _light;
+        public Material _material;
         bool scored = false;
+        public bool correct;
+        public string answer = "";
 
         // Use this for initialization
         void Start()
@@ -31,11 +35,10 @@ namespace Valve.VR.InteractionSystem
         {
             if (screenText.text.Length >= 4 && !timed)
             {
-                if (screenText.text == "1234")
+                if (screenText.text == answer)
                 {
-                    solved = true;
-                    door.GetComponent<SphereCollider>().enabled = true;
-                    if (!scored)
+                    solved = true;              
+                    if (!scored && correct)
                     {
                         GameObject.Find("Player").GetComponent<Player>().level++;
                         scored = true;
@@ -49,6 +52,12 @@ namespace Valve.VR.InteractionSystem
                     timed = true;
                     Debug.Log(t);
                 }
+            }
+
+            if (solved)
+            {
+                door.GetComponent<SphereCollider>().enabled = true;
+                _light.GetComponent<Renderer>().material = _material;
             }
 
             if (timed && t + restTime < Time.time)

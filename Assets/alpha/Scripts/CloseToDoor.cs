@@ -21,8 +21,6 @@ public class CloseToDoor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print("door1:      " + door[0].transform.position);
-        print("door2:      " + door[1].transform.position);
         if (open)
         {
             for (int i = 0; i < door.Length; i++)

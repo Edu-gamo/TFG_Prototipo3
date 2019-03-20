@@ -4,13 +4,17 @@ using UnityEngine;
 
 namespace Valve.VR.InteractionSystem
 {
-
+    [System.Serializable] 
+    public struct LightObject
+    {
+        public Valve.VR.InteractionSystem.HoverButton button;
+        public GameObject _light;
+        public bool opened;
+    }
     public class LightPanel : MonoBehaviour
     {
 
-        public Valve.VR.InteractionSystem.HoverButton[] buttons;
-        public GameObject[] lights;
-        public bool[] opened;
+        public LightObject[] lightList;
         public Material[] materials;
         int openedCount = 2;
         bool scored = false;
@@ -19,17 +23,16 @@ namespace Valve.VR.InteractionSystem
         // Use this for initialization
         void Start()
         {
-            for (int i = 0; i < buttons.Length; i++)
+            for (int i = 0; i < lightList.Length; i++)
             {
-                buttons[i].onButtonDown.AddListener(OnButtonDown);
+                lightList[i].button.onButtonDown.AddListener(OnButtonDown);
             }
-            for (int i = 0; i < opened.Length; i++)
+            for (int i = 0; i < lightList.Length; i++)
             {
-                opened[i] = false;
+                lightList[i].opened = false;
             }
-            opened[1] = true;
-            opened[3] = true;
-
+            lightList[1].opened = true;
+            lightList[3].opened = true;
         }
 
         // Update is called once per frame
@@ -42,15 +45,15 @@ namespace Valve.VR.InteractionSystem
                 scored = true;
             }
 
-            for (int i = 0; i < opened.Length; i++)
+            for (int i = 0; i < lightList.Length; i++)
             {
-                if (opened[i])
+                if (lightList[i].opened)
                 {
-                    lights[i].GetComponent<Renderer>().material = materials[1];
+                    lightList[i]._light.GetComponent<Renderer>().material = materials[1];
                 }
                 else
                 {
-                    lights[i].GetComponent<Renderer>().material = materials[0];
+                    lightList[i]._light.GetComponent<Renderer>().material = materials[0];
                 }
                
             }
@@ -62,88 +65,88 @@ namespace Valve.VR.InteractionSystem
             if (openedCount < 5)
             {
 
-                for (int i = 0; i < buttons.Length; i++)
+                for (int i = 0; i < lightList.Length; i++)
                 {
-                    if (buttons[i].buttonDown)
+                    if (lightList[i].button.buttonDown)
                     {
 
-                        if (buttons[i].name == "Button1") //0
+                        if (lightList[i].button.name == "Button1") //0
                         {
-                            if (opened[i + 1])
+                            if (lightList[i + 1].opened)
                             {
-                                opened[i + 1] = false;
+                                lightList[i + 1].opened = false;
                                 openedCount--;
                             }
                             else
                             {
-                                opened[i + 1] = true;
+                                lightList[i + 1].opened = true;
                                 openedCount++;
                             }
-                            if (opened[i])
+                            if (lightList[i].opened)
                             {
-                                opened[i] = false;
+                                lightList[i].opened = false;
                                 openedCount--;
                             }
                             else
                             {
-                                opened[i] = true;
+                                lightList[i].opened = true;
                                 openedCount++;
                             }
                         }
-                        else if (buttons[i].name == "Button5") //4
+                        else if (lightList[i].button.name == "Button5") //4
                         {
-                            if (opened[lights.Length - 2])
+                            if (lightList[lightList.Length - 2].opened)
                             {
-                                opened[lights.Length - 2] = false;
+                                lightList[lightList.Length - 2].opened = false;
                                 openedCount--;
                             }
                             else
                             {
-                                opened[lights.Length - 2] = true;
+                                lightList[lightList.Length - 2].opened = true;
                                 openedCount++;
                             }
-                            if (opened[i])
+                            if (lightList[i].opened)
                             {
-                                opened[i] = false;
+                                lightList[i].opened = false;
                                 openedCount--;
                             }
                             else
                             {
-                                opened[i] = true;
+                                lightList[i].opened = true;
                                 openedCount++;
                             }
                         }
                         else
                         {
-                            if (opened[i + 1])
+                            if (lightList[i + 1].opened)
                             {
-                                opened[i + 1] = false;
+                                lightList[i + 1].opened = false;
                                 openedCount--;
                             }
                             else
                             {
-                                opened[i + 1] = true;
+                                lightList[i + 1].opened = true;
                                 openedCount++;
                             }
 
-                            if (opened[i - 1])
+                            if (lightList[i - 1].opened)
                             {
-                                opened[i - 1] = false;
+                                lightList[i - 1].opened = false;
                                 openedCount--;
                             }
                             else
                             {
-                                opened[i - 1] = true;
+                                lightList[i - 1].opened = true;
                                 openedCount++;
                             }
-                            if (opened[i])
+                            if (lightList[i].opened)
                             {
-                                opened[i] = false;
+                                lightList[i].opened = false;
                                 openedCount--;
                             }
                             else
                             {
-                                opened[i] = true;
+                                lightList[i].opened = true;
                                 openedCount++;
                             }
                         }
