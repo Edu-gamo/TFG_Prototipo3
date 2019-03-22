@@ -23,7 +23,8 @@ public class ReturnToStartPosition : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.name == "Floor")
+        print("holii");
+        if (other.name == "Floor_Trigger")
         {
             rb.rotation = startingRot;
             rb.velocity = resetVel;
