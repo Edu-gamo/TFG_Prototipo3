@@ -26,26 +26,10 @@ namespace Valve.VR.InteractionSystem
             }
 
             if (!given)
-            {
-                switch (_player.level)
-                {
-                    case 0:
-
-                        _clues[_player.level].Play();
-                        given = true;
-                        StartCoroutine(ExecuteAfterTime());
-                        
-                        break;
-
-                    case 1:
-                        print("Holi");
-                       // _clues[1].Play();
-                        //given = true;
-                        //StartCoroutine(ExecuteAfterTime());
-
-                        break;
-
-                }
+            {               
+                _clues[_player.level].Play();
+                given = true;
+                StartCoroutine(ExecuteAfterTime());                                            
             }
             
         }

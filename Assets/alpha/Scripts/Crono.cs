@@ -36,6 +36,7 @@ namespace Valve.VR.InteractionSystem
                     seconds = 59;
                 }
                 //.text = minutes + " : " + Math.Floor(seconds);
+                target.LookAt(target);
             }
             else
             {

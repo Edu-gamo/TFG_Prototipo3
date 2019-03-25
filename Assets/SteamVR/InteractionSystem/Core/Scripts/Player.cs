@@ -51,6 +51,7 @@ namespace Valve.VR.InteractionSystem
 
         public int level = 0;
 
+        bool tuto = true;
 
         public float currentFadeTime;
 
@@ -477,6 +478,15 @@ namespace Valve.VR.InteractionSystem
                 StartCoroutine(ExecuteAfterTime());
                 currentScene = newScene;
 
+            }
+        }
+
+        public void TutoHandleEvent()
+        {
+            if (tuto)
+            {
+                level++;
+                tuto = false;
             }
         }
 
