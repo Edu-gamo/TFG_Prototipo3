@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CloseToDoor : MonoBehaviour
+public class CloseToDoor_X : MonoBehaviour
 {
     public GameObject[] door;
     Vector3 startPos;
@@ -48,7 +48,7 @@ public class CloseToDoor : MonoBehaviour
                     door[1].transform.Translate(speed * Time.deltaTime, 0, 0);
                 }
 
-                if (door[0].transform.position.x < 0) // Quan la porta arriva al final posem el bool
+                if (door[0].transform.position.x < startPos.x) // Quan la porta arriva al final posem el bool
                 {
                     endMove = true;
                 }

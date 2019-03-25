@@ -55,7 +55,7 @@ namespace Valve.VR.InteractionSystem
         public float currentFadeTime;
 
 
-        Vector3 startPos = new Vector3(6.0f,0.0f,-4.0f);
+        Vector3 startPos = new Vector3(1.6f,0.1f, 1.139f);
 
         //-------------------------------------------------
         // Singleton instance of the Player. Only one can exist at a time.
@@ -455,10 +455,7 @@ namespace Valve.VR.InteractionSystem
 		}
         void Turned()
         {
-            //float angle = Mathf.Acos(Vector3.Dot(startPos, hmdTransform.forward)/ (startPos.magnitude * hmdTransform.forward.magnitude));
-            //Debug.Log("world        " + hmdTransform.rotation);
-            //Debug.Log("local        " + hmdTransform.localRotation);
-            if (/*hmdTransform.localRotation.y >  -0.8f &&*/ hmdTransform.localRotation.y < 0.9f)
+            if (hmdTransform.localRotation.y < 0.9f)
             {
                 //Debug.Log("turned");
                 turnedNotice.gameObject.SetActive(false);

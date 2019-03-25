@@ -10,7 +10,7 @@ namespace Valve.VR.InteractionSystem
     public class keycard : MonoBehaviour
     {
         public bool opened;
-        public float endPos = 10;
+        public float endPos;
         public float speed = 0.5f;
         bool endMove = false;
         public float currentFadeTime;

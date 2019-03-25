@@ -123,8 +123,12 @@ namespace Valve.VR.InteractionSystem
 		public static SteamVR_Events.Event< TeleportMarkerBase > PlayerPre = new SteamVR_Events.Event< TeleportMarkerBase >();
 		public static SteamVR_Events.Action< TeleportMarkerBase > PlayerPreAction( UnityAction< TeleportMarkerBase > action ) { return new SteamVR_Events.Action< TeleportMarkerBase >( PlayerPre, action ); }
 
-		//-------------------------------------------------
-		private static Teleport _instance;
+        //Number Of Teleports
+
+        int teleportCount = 0;
+
+        //-------------------------------------------------
+        private static Teleport _instance;
 		public static Teleport instance
 		{
 			get
@@ -137,7 +141,7 @@ namespace Valve.VR.InteractionSystem
 				return _instance;
 			}
 		}
-
+       
 
 		//-------------------------------------------------
 		void Awake()
@@ -898,6 +902,15 @@ namespace Valve.VR.InteractionSystem
 			}
 
 			Teleport.Player.Send( pointedAtTeleportMarker );
+
+            print(teleportCount);
+            teleportCount++;
+            print(teleportCount);
+
+            if(teleportCount == 1)
+            {
+                GameObject.Find("Player").GetComponent<Player>().level++;
+            }
 		}
 
 

@@ -12,6 +12,7 @@ namespace Valve.VR.InteractionSystem
     public class Crono : MonoBehaviour
     {
         public Text timeRest;
+        public Transform target;
         public int minutes;
         float seconds = 59;
         public int currentFadeTime;
@@ -34,7 +35,7 @@ namespace Valve.VR.InteractionSystem
                     minutes--;
                     seconds = 59;
                 }
-                //timeRest.text = minutes + " : " + seconds;
+                //.text = minutes + " : " + Math.Floor(seconds);
             }
             else
             {

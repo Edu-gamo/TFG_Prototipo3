@@ -8,7 +8,7 @@ public class BotController : MonoBehaviour {
     public int targetId = 1;
     public bool arrived = false;
 
-    public float maxTimeStop = 5.0f;
+    public float maxTimeStop = 10.0f;
     private float actualTimeStop = 0.0f;
 
     public GameObject player;
