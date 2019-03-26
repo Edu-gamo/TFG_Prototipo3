@@ -360,7 +360,7 @@ namespace Valve.VR.InteractionSystem
                 print(paused);
             }
 
-            print(level);
+            //print(level);
 
                 if (SteamVR.initializedState != SteamVR.InitializedStates.InitializeSuccess)
                     return;
@@ -378,7 +378,7 @@ namespace Valve.VR.InteractionSystem
                 }
                 Turned();
 
-            print(currentScene);
+            //print(currentScene);
             SwitchLevel();
                 
         }
