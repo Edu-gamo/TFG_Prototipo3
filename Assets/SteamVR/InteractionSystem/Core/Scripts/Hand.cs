@@ -55,6 +55,8 @@ namespace Valve.VR.InteractionSystem
         
         public SteamVR_Action_Boolean uiInteractAction = SteamVR_Input.GetAction<SteamVR_Action_Boolean>("InteractUI");
 
+        public SteamVR_Action_Boolean pauseGame = SteamVR_Input.GetAction<SteamVR_Action_Boolean>("pauseGame");
+
         public bool useHoverSphere = true;
         public Transform hoverSphereTransform;
         public float hoverSphereRadius = 0.05f;
@@ -1082,6 +1084,12 @@ namespace Valve.VR.InteractionSystem
         {
 
             //Debug.Log(rotateAction.GetAxis(SteamVR_Input_Sources.Any));
+            //print(pauseGame.GetState(SteamVR_Input_Sources.Any));
+
+            if (!GameObject.Find("Player").GetComponent<Player>().start)
+            {
+                //renderModelPrefab.GetComponents<>().SetVisibility(false);
+            }
 
             UpdateNoSteamVRFallback();
 

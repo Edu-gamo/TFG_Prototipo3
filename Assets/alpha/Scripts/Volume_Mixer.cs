@@ -6,6 +6,7 @@ namespace Valve.VR.InteractionSystem
     //-------------------------------------------------------------------------
     public class Volume_Mixer : MonoBehaviour
     {
+        
         public LinearMapping linearMapping;
         public AnimationCurve volumeCurve;
         public float minVol;

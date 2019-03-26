@@ -24,12 +24,16 @@ namespace Valve.VR.InteractionSystem
         }
         private void OnTriggerEnter(Collider other)
         {
-            if (other.name == "USB")
+            if (GameObject.Find("Player").GetComponent<Player>().level == 8)
             {
+                if (other.name == "USB")
+                {
+                GameObject.Find("Player").GetComponent<Player>().level++;
                 _usbIN.SetActive(true);
                 _usb.SetActive(false);
                 _finalButton.energy = true;
                 _audio.Play();
+                }
             }
         }
     }

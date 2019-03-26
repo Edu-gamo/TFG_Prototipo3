@@ -26,10 +26,14 @@ namespace Valve.VR.InteractionSystem
             }
 
             if (!given)
-            {               
-                _clues[_player.level].Play();
-                given = true;
-                StartCoroutine(ExecuteAfterTime());                                            
+            {    
+                if(_player.level < _clues.Length)
+                {
+                    _clues[_player.level].Play();
+                    given = true;
+                    StartCoroutine(ExecuteAfterTime());
+                }
+                                                            
             }
             
         }

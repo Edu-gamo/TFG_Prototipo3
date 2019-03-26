@@ -15,6 +15,7 @@ namespace Valve.VR.InteractionSystem
         bool endMove = false;
         public float currentFadeTime;
         bool scored = false;
+        bool scored2 = false;
 
         public GameObject[] door;
         // Use this for initialization
@@ -56,10 +57,13 @@ namespace Valve.VR.InteractionSystem
             }
             else if (other.name == "KeyCard2") // Detectem que passem la keycard
             {
-                SteamVR_Fade.Start(Color.black, currentFadeTime);
-                StartCoroutine(ExecuteAfterTime());
-                                     
-               
+                opened = true;
+                if (!scored2)
+                {
+                    GameObject.Find("Player").GetComponent<Player>().level++;
+                    scored2 = true;
+                }
+
             }
             else  //Si no es la keycard no s'obre
             {

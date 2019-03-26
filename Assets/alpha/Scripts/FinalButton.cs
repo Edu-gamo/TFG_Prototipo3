@@ -27,6 +27,7 @@ namespace Valve.VR.InteractionSystem
         {
             if (!activated && energy)
             {
+                GameObject.Find("Player").GetComponent<Player>().level++;
                 protector[0].SetActive(true);
                 protector[1].SetActive(false);
                 activated = true;

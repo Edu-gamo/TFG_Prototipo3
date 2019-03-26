@@ -12,44 +12,52 @@ namespace Valve.VR.InteractionSystem
     public class Crono : MonoBehaviour
     {
         public Text timeRest;
-        public Transform target;
+        Player _player;
         public int minutes;
-        float seconds = 59;
-        public int currentFadeTime;
+        public float seconds;
+        public float currentFadeTime;
+        bool timed = false;
 
 
         // Start is called before the first frame update
         void Start()
         {
-
+            _player = GameObject.Find("Player").GetComponent<Player>();
+            timeRest.text = minutes.ToString() + " : " + Math.Floor(seconds).ToString();
         }
 
         // Update is called once per frame
         void Update()
         {
-            seconds -= Time.deltaTime;
-            if (minutes > 0)
+            //print("Pause         " + _player.paused);
+            //print("Play         " + _player.start);
+            if (minutes >= 0 && Math.Floor(seconds) != 0)
             {
-                if (seconds < 0)
+                if (!_player.paused && _player.start)
+                    {
+                        seconds -= Time.deltaTime;
+                    }
+                if (seconds <= 0 && minutes > 0)
                 {
                     minutes--;
                     seconds = 59;
                 }
-                //.text = minutes + " : " + Math.Floor(seconds);
-                target.LookAt(target);
+                timeRest.text = minutes.ToString() + " : " + Math.Floor(seconds).ToString();
             }
-            else
-            {
-                //SteamVR_Fade.Start(Color.clear, 0);
-                //SteamVR_Fade.Start(Color.black, currentFadeTime);
+                else if (minutes <= 0 && Math.Floor(seconds) == 0)
+                {
+                    SteamVR_Fade.Start(Color.black, currentFadeTime);
+                    StartCoroutine(ExecuteAfterTime());
 
-                //SceneManager.LoadScene("FinalScene");
-                //SteamVR_Fade.Start(Color.clear, currentFadeTime);
-                //timeRest.text = "Time out!";
-               
-            }
-
-
+                }
+            
         }
+
+        IEnumerator ExecuteAfterTime()
+        {
+            yield return new WaitForSeconds(3.5f);
+            SceneManager.LoadScene("MainMenu");
+        }
+
     }
 }

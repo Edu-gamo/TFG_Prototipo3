@@ -38,25 +38,28 @@ namespace Valve.VR.InteractionSystem
         // Update is called once per frame
         void Update()
         {
-            
-            if (openedCount == 5 && !scored)
+            if (GameObject.Find("Player").GetComponent<Player>().level == 7)
             {
-                GameObject.Find("Player").GetComponent<Player>().level++;
-                scored = true;
-            }
+                if (openedCount == 5 && !scored)
+                {
+                    GameObject.Find("Player").GetComponent<Player>().level++;
+                    scored = true;
+                }
 
-            for (int i = 0; i < lightList.Length; i++)
-            {
-                if (lightList[i].opened)
+                for (int i = 0; i < lightList.Length; i++)
                 {
-                    lightList[i]._light.GetComponent<Renderer>().material = materials[1];
+                    if (lightList[i].opened)
+                    {
+                        lightList[i]._light.GetComponent<Renderer>().material = materials[1];
+                    }
+                    else
+                    {
+                        lightList[i]._light.GetComponent<Renderer>().material = materials[0];
+                    }
+
                 }
-                else
-                {
-                    lightList[i]._light.GetComponent<Renderer>().material = materials[0];
-                }
-               
             }
+            
 
         }
 

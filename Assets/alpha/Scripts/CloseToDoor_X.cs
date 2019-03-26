@@ -2,80 +2,86 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CloseToDoor_X : MonoBehaviour
+namespace Valve.VR.InteractionSystem
 {
-    public GameObject[] door;
-    Vector3 startPos;
-    public float endPos = 10;
-    public float speed = 0.5f;
-    bool endMove = false;
-    bool open = false;
-    bool close = false;
-
-    // Start is called before the first frame update
-    void Start()
+    public class CloseToDoor_X : MonoBehaviour
     {
-        startPos = door[0].transform.position;
-    }
+        public GameObject[] door;
+        Vector3 startPos;
+        public float endPos = 10;
+        public float speed = 0.5f;
+        bool endMove = false;
+        bool open = false;
+        bool close = false;
+        public int _level;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (open)
+        // Start is called before the first frame update
+        void Start()
         {
-            for (int i = 0; i < door.Length; i++)
+            startPos = door[0].transform.position;
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            if (GameObject.Find("Player").GetComponent<Player>().level >= _level)
             {
-                if (!endMove) // comencem a obrir la porta
+                if (open)
                 {
-                    door[0].transform.Translate(speed * Time.deltaTime, 0, 0);
-                    door[1].transform.Translate(-speed * Time.deltaTime, 0, 0);
+                    for (int i = 0; i < door.Length; i++)
+                    {
+                        if (!endMove) // comencem a obrir la porta
+                        {
+                            door[0].transform.Translate(speed * Time.deltaTime, 0, 0);
+                            door[1].transform.Translate(-speed * Time.deltaTime, 0, 0);
+                        }
+
+                        if (door[0].transform.position.x > endPos) // Quan la porta arriva al final posem el bool
+                        {
+                            endMove = true;
+                        }
+                    }
                 }
 
-                if (door[0].transform.position.x > endPos) // Quan la porta arriva al final posem el bool
+                if (close)
                 {
-                    endMove = true;
+                    for (int i = 0; i < door.Length; i++)
+                    {
+                        if (!endMove) // comencem a obrir la porta
+                        {
+                            door[0].transform.Translate(-speed * Time.deltaTime, 0, 0);
+                            door[1].transform.Translate(speed * Time.deltaTime, 0, 0);
+                        }
+
+                        if (door[0].transform.position.x < startPos.x) // Quan la porta arriva al final posem el bool
+                        {
+                            endMove = true;
+                        }
+                    }
                 }
             }
         }
 
-        if (close)
+        private void OnTriggerEnter(Collider other)
         {
-            for (int i = 0; i < door.Length; i++)
+            if (other.name == "BodyCollider")
             {
-                if (!endMove) // comencem a obrir la porta
-                {
-                    door[0].transform.Translate(-speed * Time.deltaTime, 0, 0);
-                    door[1].transform.Translate(speed * Time.deltaTime, 0, 0);
-                }
-
-                if (door[0].transform.position.x < startPos.x) // Quan la porta arriva al final posem el bool
-                {
-                    endMove = true;
-                }
+                open = true;
+                close = false;
+                endMove = false;
+                print("hi");
             }
-        }
 
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.name == "BodyCollider")
-        {
-            open = true;
-            close = false;
-            endMove = false;
-            print("hi");
         }
-      
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.name == "BodyCollider")
+        private void OnTriggerExit(Collider other)
         {
-            open = false;
-            close = true;
-            endMove = false;
-            print("exit");
+            if (other.name == "BodyCollider")
+            {
+                open = false;
+                close = true;
+                endMove = false;
+                print("exit");
+            }
         }
     }
 }

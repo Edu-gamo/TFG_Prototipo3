@@ -33,21 +33,42 @@ public class BotController : MonoBehaviour {
 
             if (path != null) {
                 transform.position += (path[targetId].position - transform.position).normalized * speed * Time.deltaTime;
-                if (Vector3.Distance(transform.position, path[targetId].position) < 1) arrived = true;
-            } else {
-                if (Vector3.Distance(transform.position, player.transform.position) > 2) {
+
+                if (Vector3.Distance(transform.position, path[targetId].position) < 1)
+                {
+                    arrived = true;
+                }
+            }
+            else {
+                if (Vector3.Distance(transform.position, player.transform.position) > 2)
+                {
                     transform.position += (player.transform.position - transform.position).normalized * speed * Time.deltaTime;
                 }
             }
 
-        } else if (actualTimeStop < maxTimeStop) {
+        }
+        else if (actualTimeStop < maxTimeStop) {
 
             actualTimeStop += Time.deltaTime;
+           
+            if (targetId + 1 >= path.Length)
+            {
+                transform.LookAt(path[1]);                
+            }
+            else
+            {
+                transform.LookAt(path[targetId + 1]);
+            }
+            transform.eulerAngles = new Vector3(-90.0f, transform.eulerAngles.y, transform.eulerAngles.z);
 
-        } else {
+        }
+        else {
 
             targetId++;
-            if (targetId >= path.Length) targetId = 1;
+            if (targetId >= path.Length)
+            {
+                targetId = 1;
+            }
             arrived = false;
             actualTimeStop = 0.0f;
 

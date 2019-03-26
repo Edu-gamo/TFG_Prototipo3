@@ -127,6 +127,8 @@ namespace Valve.VR.InteractionSystem
 
         int teleportCount = 0;
 
+        Player _player;
+
         //-------------------------------------------------
         private static Teleport _instance;
 		public static Teleport instance
@@ -173,6 +175,8 @@ namespace Valve.VR.InteractionSystem
 		//-------------------------------------------------
 		void Start()
         {
+            _player = GameObject.Find("Player").GetComponent<Player>();
+
             teleportMarkers = GameObject.FindObjectsOfType<TeleportMarkerBase>();
 
 			HidePointer();
@@ -234,79 +238,81 @@ namespace Valve.VR.InteractionSystem
 		}
 
 
-		//-------------------------------------------------
-		void Update()
-		{
-			Hand oldPointerHand = pointerHand;
-			Hand newPointerHand = null;
+        //-------------------------------------------------
+        void Update()
+        {
+            Hand oldPointerHand = pointerHand;
+            Hand newPointerHand = null;
+           
+            if (!_player.paused) { 
+            foreach (Hand hand in player.hands)
+            {
+                if (visible)
+                {
+                    if (WasTeleportButtonReleased(hand))
+                    {
+                        if (pointerHand == hand) //This is the pointer hand
+                        {
+                            TryTeleportPlayer();
+                        }
+                    }
+                }
 
-			foreach ( Hand hand in player.hands )
-			{
-				if ( visible )
-				{
-					if ( WasTeleportButtonReleased( hand ) )
-					{
-						if ( pointerHand == hand ) //This is the pointer hand
-						{
-							TryTeleportPlayer();
-						}
-					}
-				}
+                if (WasTeleportButtonPressed(hand))
+                {
+                    newPointerHand = hand;
+                }
+            }
 
-				if ( WasTeleportButtonPressed( hand ) )
-				{
-					newPointerHand = hand;
-				}
-			}
+            //If something is attached to the hand that is preventing teleport
+            if (allowTeleportWhileAttached && !allowTeleportWhileAttached.teleportAllowed)
+            {
+                HidePointer();
+            }
+            else
+            {
+                if (!visible && newPointerHand != null)
+                {
+                    //Begin showing the pointer
+                    ShowPointer(newPointerHand, oldPointerHand);
+                }
+                else if (visible)
+                {
+                    if (newPointerHand == null && !IsTeleportButtonDown(pointerHand))
+                    {
+                        //Hide the pointer
+                        HidePointer();
+                    }
+                    else if (newPointerHand != null)
+                    {
+                        //Move the pointer to a new hand
+                        ShowPointer(newPointerHand, oldPointerHand);
+                    }
+                }
+            }
 
-			//If something is attached to the hand that is preventing teleport
-			if ( allowTeleportWhileAttached && !allowTeleportWhileAttached.teleportAllowed )
-			{
-				HidePointer();
-			}
-			else
-			{
-				if ( !visible && newPointerHand != null )
-				{
-					//Begin showing the pointer
-					ShowPointer( newPointerHand, oldPointerHand );
-				}
-				else if ( visible )
-				{
-					if ( newPointerHand == null && !IsTeleportButtonDown( pointerHand ) )
-					{
-						//Hide the pointer
-						HidePointer();
-					}
-					else if ( newPointerHand != null )
-					{
-						//Move the pointer to a new hand
-						ShowPointer( newPointerHand, oldPointerHand );
-					}
-				}
-			}
+            if (visible)
+            {
+                UpdatePointer();
 
-			if ( visible )
-			{
-				UpdatePointer();
+                if (meshFading)
+                {
+                    UpdateTeleportColors();
+                }
 
-				if ( meshFading )
-				{
-					UpdateTeleportColors();
-				}
-
-				if ( onActivateObjectTransform.gameObject.activeSelf && Time.time - pointerShowStartTime > activateObjectTime )
-				{
-					onActivateObjectTransform.gameObject.SetActive( false );
-				}
-			}
-			else
-			{
-				if ( onDeactivateObjectTransform.gameObject.activeSelf && Time.time - pointerHideStartTime > deactivateObjectTime )
-				{
-					onDeactivateObjectTransform.gameObject.SetActive( false );
-				}
-			}
+                if (onActivateObjectTransform.gameObject.activeSelf && Time.time - pointerShowStartTime > activateObjectTime)
+                {
+                    onActivateObjectTransform.gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                if (onDeactivateObjectTransform.gameObject.activeSelf && Time.time - pointerHideStartTime > deactivateObjectTime)
+                {
+                    onDeactivateObjectTransform.gameObject.SetActive(false);
+                }
+            }
+        }
 		}
 
 
@@ -853,64 +859,63 @@ namespace Valve.VR.InteractionSystem
 		}
 
 
-		//-------------------------------------------------
-		private void TeleportPlayer()
-		{
-			teleporting = false;
+        //-------------------------------------------------
+        private void TeleportPlayer()
+        {
+            teleporting = false;
 
-			Teleport.PlayerPre.Send( pointedAtTeleportMarker );
+            Teleport.PlayerPre.Send(pointedAtTeleportMarker);
 
-			SteamVR_Fade.Start( Color.clear, currentFadeTime );
+            SteamVR_Fade.Start(Color.clear, currentFadeTime);
 
-			TeleportPoint teleportPoint = teleportingToMarker as TeleportPoint;
-			Vector3 teleportPosition = pointedAtPosition;
+            TeleportPoint teleportPoint = teleportingToMarker as TeleportPoint;
+            Vector3 teleportPosition = pointedAtPosition;
 
-			if ( teleportPoint != null )
-			{
-				teleportPosition = teleportPoint.transform.position;
+            if (teleportPoint != null)
+            {
+                teleportPosition = teleportPoint.transform.position;
 
-				//Teleport to a new scene
-				if ( teleportPoint.teleportType == TeleportPoint.TeleportPointType.SwitchToNewScene )
-				{
-					teleportPoint.TeleportToScene();
-					return;
-				}
-			}
+                //Teleport to a new scene
+                if (teleportPoint.teleportType == TeleportPoint.TeleportPointType.SwitchToNewScene)
+                {
+                    teleportPoint.TeleportToScene();
+                    return;
+                }
+            }
 
-			// Find the actual floor position below the navigation mesh
-			TeleportArea teleportArea = teleportingToMarker as TeleportArea;
-			if ( teleportArea != null )
-			{
-				if ( floorFixupMaximumTraceDistance > 0.0f )
-				{
-					RaycastHit raycastHit;
-					if ( Physics.Raycast( teleportPosition + 0.05f * Vector3.down, Vector3.down, out raycastHit, floorFixupMaximumTraceDistance, floorFixupTraceLayerMask ) )
-					{
-						teleportPosition = raycastHit.point;
-					}
-				}
-			}
+            // Find the actual floor position below the navigation mesh
+            TeleportArea teleportArea = teleportingToMarker as TeleportArea;
+            if (teleportArea != null)
+            {
+                if (floorFixupMaximumTraceDistance > 0.0f)
+                {
+                    RaycastHit raycastHit;
+                    if (Physics.Raycast(teleportPosition + 0.05f * Vector3.down, Vector3.down, out raycastHit, floorFixupMaximumTraceDistance, floorFixupTraceLayerMask))
+                    {
+                        teleportPosition = raycastHit.point;
+                    }
+                }
+            }
 
-			if ( teleportingToMarker.ShouldMovePlayer() )
-			{
-				Vector3 playerFeetOffset = player.trackingOriginTransform.position - player.feetPositionGuess;
-				player.trackingOriginTransform.position = teleportPosition + playerFeetOffset;
-			}
-			else
-			{
-				teleportingToMarker.TeleportPlayer( pointedAtPosition );
-			}
+            if (teleportingToMarker.ShouldMovePlayer())
+            {
+                Vector3 playerFeetOffset = player.trackingOriginTransform.position - player.feetPositionGuess;
+                player.trackingOriginTransform.position = teleportPosition + playerFeetOffset;
+            }
+            else
+            {
+                teleportingToMarker.TeleportPlayer(pointedAtPosition);
+            }
 
-			Teleport.Player.Send( pointedAtTeleportMarker );
+            Teleport.Player.Send(pointedAtTeleportMarker);
 
-            print(teleportCount);
             teleportCount++;
-            print(teleportCount);
+            //print(teleportCount);
 
-            if(teleportCount == 1)
+            if (teleportCount == 1 && GameObject.Find("Player").GetComponent<Player>().level == 0)
             {
                 GameObject.Find("Player").GetComponent<Player>().level++;
-            }
+            }       
 		}
 
 

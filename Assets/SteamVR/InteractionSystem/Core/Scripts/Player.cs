@@ -51,10 +51,19 @@ namespace Valve.VR.InteractionSystem
 
         public int level = 0;
 
+        public int pipeLineSolved = 0;
+
         bool tuto = true;
+
+        bool tuto2 = false;
+
+        bool pressed = false;
 
         public float currentFadeTime;
 
+        public bool paused = false;
+
+        public bool start = false;
 
         Vector3 startPos = new Vector3(1.6f,0.1f, 1.139f);
 
@@ -299,48 +308,82 @@ namespace Valve.VR.InteractionSystem
 
         protected virtual void Update()
         {
-            //Debug.Log("------------------------------> " + hands[0].rotateAction.GetAxis(hands[0].handType)[0]);
-            if (hands[0].rotateAction.GetAxis(hands[0].handType)[0] > .75f && !rotated) {            
+            
+            if (SceneManager.GetActiveScene().name == "AdriTest")
+            {
+                start = true;
+            }
+            else
+            {
+                start = false;
+            }
+
+
+            //Rotate Camera
+            if (hands[0].rotateAction.GetAxis(hands[0].handType)[0] > .75f && !rotated && !tuto2)
+            {
+                level++;
+                tuto2 = true;
+            }
+
+            if (hands[0].rotateAction.GetAxis(hands[0].handType)[0] > .75f && !rotated)
+            {            
                 transform.Rotate(transform.up, 45);
                 rotated = true;
-            } else if (hands[0].rotateAction.GetAxis(hands[0].handType)[0] < -.75f && !rotated) {
+            }
+            else if (hands[0].rotateAction.GetAxis(hands[0].handType)[0] < -.75f && !rotated)
+            {
                 transform.Rotate(transform.up, -45);
                 rotated = true;
-            }else if (hands[0].rotateAction.GetAxis(hands[0].handType)[0] == 0) {
+            }
+            else if (hands[0].rotateAction.GetAxis(hands[0].handType)[0] == 0)
+            {
                 rotated = false;
             }
 
-            if (SteamVR.initializedState != SteamVR.InitializedStates.InitializeSuccess)
-                return;
-
-            if (headsetOnHead != null)
+            //Pause Menu
+            if (hands[0].pauseGame.GetStateUp(hands[0].handType) )
             {
-                if (headsetOnHead.GetStateDown(SteamVR_Input_Sources.Head))
-                {
-                    Debug.Log("<b>SteamVR Interaction System</b> Headset placed on head");
-                }
-                else if (headsetOnHead.GetStateUp(SteamVR_Input_Sources.Head))
-                {
-                    Debug.Log("<b>SteamVR Interaction System</b> Headset removed");
-                }
+                pressed = false;
             }
-            Turned();
+            if (hands[0].pauseGame.GetState(hands[0].handType) && !pressed)
+            {
+                pressed = true;
+                if (!paused)
+                {
+                    paused = true;
+                }
+                else
+                {
+                    paused = false;
+                }
+                print(paused);
+            }
+
+            print(level);
+
+                if (SteamVR.initializedState != SteamVR.InitializedStates.InitializeSuccess)
+                    return;
+
+                if (headsetOnHead != null)
+                {
+                    if (headsetOnHead.GetStateDown(SteamVR_Input_Sources.Head))
+                    {
+                        Debug.Log("<b>SteamVR Interaction System</b> Headset placed on head");
+                    }
+                    else if (headsetOnHead.GetStateUp(SteamVR_Input_Sources.Head))
+                    {
+                        Debug.Log("<b>SteamVR Interaction System</b> Headset removed");
+                    }
+                }
+                Turned();
+
+            print(currentScene);
             SwitchLevel();
-
-            //print(level);
-            if (level == 4)
-            {
-                SteamVR_Fade.Start(Color.clear, 0);
-                SteamVR_Fade.Start(Color.black, currentFadeTime);
-                SceneManager.LoadScene("FinalScene");
-                SteamVR_Fade.Start(Color.clear, currentFadeTime);
-                level = -1;
-            }
-
+                
         }
-
-		//-------------------------------------------------
-		void OnDrawGizmos()
+        //-------------------------------------------------
+        void OnDrawGizmos()
 		{
 			if ( this != instance )
 			{
@@ -474,7 +517,7 @@ namespace Valve.VR.InteractionSystem
             if (newScene != currentScene)
             {
                 SteamVR_Fade.Start(Color.black, 0);
-                transform.position = startPos;
+                //transform.position = startPos;
                 StartCoroutine(ExecuteAfterTime());
                 currentScene = newScene;
 
